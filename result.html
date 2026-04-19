@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTracker - Results</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      min-height: 100vh;
+      color: white;
+    }
+    .score-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 36px;
+      font-weight: bold;
+      border: 5px solid;
+    }
+    .grade-A { border-color: #38ef7d; color: #38ef7d; background: rgba(56,239,125,0.1); }
+    .grade-B { border-color: #f7971e; color: #f7971e; background: rgba(247,151,30,0.1); }
+    .grade-C { border-color: #ff4e50; color: #ff4e50; background: rgba(255,78,80,0.1); }
+    .breakdown-card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 15px;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tip-card {
+      background: rgba(56,239,125,0.08);
+      border: 1px solid rgba(56,239,125,0.2);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+    .btn-retry {
+      background: linear-gradient(90deg, #11998e, #38ef7d);
+      border: none;
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      width: 100%;
+    }
+    .section-title {
+      color: #38ef7d;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(56,239,125,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-4 py-3">
+  <a href="index.html" class="text-decoration-none">
+    <span class="navbar-brand fw-bold fs-4">🌍 EcoTracker</span>
+  </a>
+</nav>
+
+<div class="container py-4">
+  <h2 class="text-center fw-bold mb-4">Your Results 🌱</h2>
+
+  <!-- Score Card -->
+  <div class="score-card mb-4">
+    <div class="score-circle" id="scoreCircle">
+      <div id="gradeText">A</div>
+      <div style="font-size:14px">Grade</div>
+    </div>
+    <h4 id="totalText">Total: 0 kg CO₂</h4>
+    <p id="messageText" class="text-light mt-2"></p>
+  </div>
+
+  <!-- Breakdown -->
+  <div class="section-title">📊 Breakdown</div>
+
+  <div class="breakdown-card">
+    <span>🚗 Travel</span>
+    <span id="carResult" class="text-warning fw-bold">0 kg</span>
+  </div>
+  <div class="breakdown-card">
+    <span>⚡ Electricity</span>
+    <span id="electricityResult" class="text-warning fw-bold">0 kg</span>
+  </div>
+  <div class="breakdown-card">
+    <span>🥗 Food</span>
+    <span id="foodResult" class="text-warning fw-bold">0 kg</span>
+  </div>
+
+  <!-- Tips -->
+  <div class="section-title">💡 Tips to Reduce</div>
+  <div id="tipsContainer"></div>
+
+  <!-- Buttons -->
+  <div class="mt-4">
+    <button class="btn-retry mb-3" onclick="window.location.href='tracker.html'">
+      🔄 Track Again
+    </button>
+    <button class="btn-retry" 
+      style="background: rgba(255,255,255,0.1);"
+      onclick="window.location.href='index.html'">
+      🏠 Go Home
+    </button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const total = parseFloat(localStorage.getItem('totalCarbon')) || 0;
+  const car = parseFloat(localStorage.getItem('carCarbon')) || 0;
+  const electricity = parseFloat(localStorage.getItem('electricityCarbon')) || 0;
+  const food = parseFloat(localStorage.getItem('foodCarbon')) || 0;
+
+  // Display breakdown
+  document.getElementById('carResult').textContent = car + ' kg';
+  document.getElementById('electricityResult').textContent = electricity + ' kg';
+  document.getElementById('foodResult').textContent = food + ' kg';
+  document.getElementById('totalText').textContent = 'Total: ' + total + ' kg CO₂';
+
+  // Grade logic
+  const circle = document.getElementById('scoreCircle');
+  const grade = document.getElementById('gradeText');
+  const message = document.getElementById('messageText');
+
+  if(total <= 5) {
+    circle.classList.add('grade-A');
+    grade.textContent = 'A';
+    message.textContent = '🌟 Excellent! You are living very eco-friendly!';
+  } else if(total <= 10) {
+    circle.classList.add('grade-B');
+    grade.textContent = 'B';
+    message.textContent = '👍 Good job! Small improvements can make it better!';
+  } else {
+    circle.classList.add('grade-C');
+    grade.textContent = 'C';
+    message.textContent = '⚠️ High footprint! Try the tips below to reduce it.';
+  }
+
+  // Tips
+  const tips = [];
+  if(car > 2) tips.push('🚌 Try using public transport or carpooling');
+  if(electricity > 3) tips.push('💡 Turn off lights and unplug devices when not in use');
+  if(food > 4) tips.push('🥗 Try adding more vegetarian meals to your diet');
+  tips.push('🌳 Plant a tree to offset your carbon footprint');
+  tips.push('♻️ Recycle and reduce plastic usage daily');
+
+  const container = document.getElementById('tipsContainer');
+  tips.forEach(tip => {
+    container.innerHTML += `
+      <div class="tip-card">
+        <p class="mb-0">${tip}</p>
+      </div>`;
+  });
+</script>
+</body>
+</html>
