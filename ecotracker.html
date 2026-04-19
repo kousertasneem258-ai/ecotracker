@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      min-height: 100vh;
+      color: white;
+    }
+    .hero {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .eco-icon {
+      font-size: 80px;
+    }
+    .btn-eco {
+      background: linear-gradient(90deg, #11998e, #38ef7d);
+      border: none;
+      color: white;
+      padding: 15px 40px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .card-feature {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 10px;
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-4 py-3">
+  <span class="navbar-brand fw-bold fs-4">🌍 EcoTracker</span>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero">
+  <div class="eco-icon">🌱</div>
+  <h1 class="fw-bold mt-3">Track Your Carbon Footprint</h1>
+  <p class="lead mt-3 text-light">
+    Small changes make a big difference.<br>
+    Find out how your daily habits affect the planet.
+  </p>
+  <button class="btn btn-eco mt-4" onclick="window.location.href='tracker.html'">Start Tracking →</button>
+</div>
+
+<!-- Features Section -->
+<div class="container pb-5">
+  <h3 class="text-center mb-4">Why Use EcoTracker?</h3>
+  <div class="row text-center">
+    <div class="col-12 col-md-4">
+      <div class="card-feature">
+        <div style="font-size:40px">🚗</div>
+        <h5 class="mt-2">Track Travel</h5>
+        <p class="text-light">Monitor emissions from your daily commute</p>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card-feature">
+        <div style="font-size:40px">⚡</div>
+        <h5 class="mt-2">Track Energy</h5>
+        <p class="text-light">See how much electricity you consume daily</p>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card-feature">
+        <div style="font-size:40px">🥗</div>
+        <h5 class="mt-2">Track Food</h5>
+        <p class="text-light">Know the impact of your food choices</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
