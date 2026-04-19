@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTracker - Track</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      min-height: 100vh;
+      color: white;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .form-label {
+      color: #38ef7d;
+      font-weight: bold;
+    }
+    .form-control, .form-select {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      border-radius: 10px;
+    }
+    .form-control:focus, .form-select:focus {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border-color: #38ef7d;
+      box-shadow: 0 0 10px rgba(56,239,125,0.3);
+    }
+    .form-select option {
+      background: #1a1a2e;
+      color: white;
+    }
+    .btn-calculate {
+      background: linear-gradient(90deg, #11998e, #38ef7d);
+      border: none;
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%;
+    }
+    .section-icon {
+      font-size: 30px;
+      margin-right: 10px;
+    }
+    .section-title {
+      color: #38ef7d;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(56,239,125,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-4 py-3">
+  <a href="index.html" class="text-decoration-none">
+    <span class="navbar-brand fw-bold fs-4">🌍 EcoTracker</span>
+  </a>
+</nav>
+
+<!-- Form -->
+<div class="container py-4">
+  <h2 class="text-center fw-bold mb-2">Daily Activity Form</h2>
+  <p class="text-center text-light mb-4">Fill in your daily habits to calculate your carbon footprint</p>
+
+  <div class="form-card">
+
+    <!-- Travel Section -->
+    <div class="section-title">
+      <span class="section-icon">🚗</span>Travel
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Distance travelled by car (km)</label>
+      <input type="number" class="form-control" id="carKm" placeholder="e.g. 20">
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Distance travelled by bike (km)</label>
+      <input type="number" class="form-control" id="bikeKm" placeholder="e.g. 5">
+    </div>
+
+    <!-- Electricity Section -->
+    <div class="section-title">
+      <span class="section-icon">⚡</span>Electricity
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Electricity used today (units/kWh)</label>
+      <input type="number" class="form-control" id="electricity" placeholder="e.g. 3">
+    </div>
+
+    <!-- Food Section -->
+    <div class="section-title">
+      <span class="section-icon">🥗</span>Food
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">What did you mostly eat today?</label>
+      <select class="form-select" id="foodType">
+        <option value="">-- Select food type --</option>
+        <option value="vegan">🥦 Vegan</option>
+        <option value="vegetarian">🥗 Vegetarian</option>
+        <option value="mixed">🍱 Mixed (veg + non-veg)</option>
+        <option value="meat">🍖 Mostly Meat</option>
+      </select>
+    </div>
+
+    <!-- Calculate Button -->
+    <button class="btn-calculate" onclick="calculate()">
+      🌍 Calculate My Footprint
+    </button>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function calculate() {
+    const car = parseFloat(document.getElementById('carKm').value) || 0;
+    const bike = parseFloat(document.getElementById('bikeKm').value) || 0;
+    const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+    const food = document.getElementById('foodType').value;
+
+    if(!food) {
+      alert('Please select your food type!');
+      return;
+    }
+
+    // Carbon values
+    const carCarbon = car * 0.21;
+    const bikeCarbon = bike * 0.05;
+    const electricityCarbon = electricity * 0.82;
+
+    const foodValues = {
+      vegan: 1.5,
+      vegetarian: 2.5,
+      mixed: 4.5,
+      meat: 7.5
+    };
+    const foodCarbon = foodValues[food];
+
+    const total = carCarbon + bikeCarbon + electricityCarbon + foodCarbon;
+
+    // Save and go to result page
+    localStorage.setItem('totalCarbon', total.toFixed(2));
+    localStorage.setItem('carCarbon', carCarbon.toFixed(2));
+    localStorage.setItem('electricityCarbon', electricityCarbon.toFixed(2));
+    localStorage.setItem('foodCarbon', foodCarbon.toFixed(2));
+
+    window.location.href = 'result.html';
+  }
+</script>
+</body>
+</html>
